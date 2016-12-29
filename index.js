@@ -518,6 +518,18 @@ JeedomPlatform.prototype.JeedomDevices2HomeKitAccessories = function(devices) {
 						services.push(service);
 						service = null;
 					}
+					if (cmds.heating) {
+						service = {
+							controlService : new Service.Heating(_params.name),
+							characteristics : [Characteristic.CurrentHeatingState, Characteristic.TargetHeatingState]
+						};
+						service.controlService.cmd_id = cmds.heating.id;
+						if (service.controlService.subtype == undefined)
+							service.controlService.subtype = "";
+						service.controlService.subtype = _params.id + "-" + cmds.heating.id + "-" + service.controlService.subtype;
+						services.push(service);
+						service = null;
+					}
 					if (cmds.alarm) {
 						service = {
 							controlService : new Service.SecuritySystem(_params.name),
